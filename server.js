@@ -7,7 +7,7 @@ const app = express();
 
 // Configure CORS pour autoriser les requêtes de votre frontend
 app.use(cors({
-  origin: 'http://localhost:5173', // Remplacez par l'URL de votre frontend
+  origin: 'https://668d9b00e34150e5510ab193--comforting-panda-bb54f9.netlify.app', // Remplacez par l'URL de votre frontend
   methods: 'GET,POST,OPTIONS',
   allowedHeaders: 'Content-Type',
   credentials: true // Ajoutez ceci pour permettre les requêtes avec credentials
@@ -46,7 +46,7 @@ app.post('/send-email', (req, res) => {
 
 // Gérer les requêtes OPTIONS (preflight)
 app.options('*', (req, res) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:5173'); // Remplacez par l'URL de votre frontend
+  res.header('Access-Control-Allow-Origin', 'https://668d9b00e34150e5510ab193--comforting-panda-bb54f9.netlify.app'); // Remplacez par l'URL de votre frontend
   res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
   res.header('Access-Control-Allow-Credentials', 'true'); // Ajoutez ceci
