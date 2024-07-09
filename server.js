@@ -7,14 +7,8 @@ const app = express();
 
 // Configure CORS pour autoriser les requêtes de votre frontend
 app.use(cors({
-  origin: 'http://localhost:5173/', // Vous pouvez remplacer par l'URL de votre frontend pour plus de sécurité
-  methods: 'GET,POST',
-  allowedHeaders: 'Content-Type'
-}));
-
-app.options('*', cors({
-  origin: 'http://localhost:5173',
-  methods: 'GET,POST',
+  origin: 'http://localhost:5173', // Remplacez par l'URL de votre frontend
+  methods: 'GET,POST,OPTIONS',
   allowedHeaders: 'Content-Type'
 }));
 
@@ -49,6 +43,16 @@ app.post('/send-email', (req, res) => {
   });
 });
 
-app.listen(3000, () => {
-  console.log('Serveur backend démarré sur le port 3000');
+// Gérer les requêtes OPTIONS (preflight)
+app.options('*', (req, res) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5173'); // Remplacez par l'URL de votre frontend
+  res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.send();
+});
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Serveur backend démarré sur le port ${PORT}`);
 });
