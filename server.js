@@ -12,6 +12,12 @@ app.use(cors({
   allowedHeaders: 'Content-Type'
 }));
 
+app.options('*', cors({
+  origin: 'http://localhost:5173',
+  methods: 'GET,POST',
+  allowedHeaders: 'Content-Type'
+}));
+
 app.use(bodyParser.json());
 
 const transporter = nodemailer.createTransport({
