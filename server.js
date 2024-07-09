@@ -4,8 +4,15 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 const app = express();
+
+// Configure CORS pour autoriser les requêtes de votre frontend
+app.use(cors({
+  origin: 'http://localhost:5173', // Remplacez par l'URL de votre frontend
+  methods: 'GET,POST',
+  allowedHeaders: 'Content-Type'
+}));
+
 app.use(bodyParser.json());
-app.use(cors());
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
