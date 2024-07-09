@@ -27,10 +27,10 @@ export async function handler(event, context) {
       body: JSON.stringify({ message: 'Email envoyé avec succès' }),
     };
   } catch (error) {
-    console.error('Erreur lors de l\'envoi de l\'email', error);
+    console.error('Erreur lors de l\'envoi de l\'emmail', error);
     return {
       statusCode: 500,
-      body: JSON.stringify({ message: 'Erreur lors de l\'envoi de l\'email' }),
+      body: JSON.stringify({ message: 'Erreur lors de l\'envoi de l\'emmail' }),
     };
   }
 }
