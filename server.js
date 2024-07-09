@@ -42,6 +42,7 @@ app.post('/send-email', (req, res) => {
       res.status(200).send('Email envoyé avec succès');
     }
   });
+  return console.log("Coucou")
 });
 
 // Gérer les requêtes OPTIONS (preflight)
