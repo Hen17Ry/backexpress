@@ -9,7 +9,8 @@ const app = express();
 app.use(cors({
   origin: 'http://localhost:5173', // Remplacez par l'URL de votre frontend
   methods: 'GET,POST,OPTIONS',
-  allowedHeaders: 'Content-Type'
+  allowedHeaders: 'Content-Type',
+  credentials: true // Ajoutez ceci pour permettre les requêtes avec credentials
 }));
 
 app.use(bodyParser.json());
@@ -48,6 +49,7 @@ app.options('*', (req, res) => {
   res.header('Access-Control-Allow-Origin', 'http://localhost:5173'); // Remplacez par l'URL de votre frontend
   res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type');
+  res.header('Access-Control-Allow-Credentials', 'true'); // Ajoutez ceci
   res.send();
 });
 
