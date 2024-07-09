@@ -7,7 +7,7 @@ const app = express();
 
 // Configure CORS pour autoriser les requêtes de votre frontend
 app.use(cors({
-  origin: 'http://localhost:5173', // Remplacez par l'URL de votre frontend
+  origin: 'http://localhost:5173/', // Vous pouvez remplacer par l'URL de votre frontend pour plus de sécurité
   methods: 'GET,POST',
   allowedHeaders: 'Content-Type'
 }));
