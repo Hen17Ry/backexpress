@@ -28,15 +28,15 @@ exports.handler = async (event, context) => {
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'checkcards6@gmail.com', // replace with your email
-      pass: 'zzhh xrqn qven pyre' // replace with your email password
+      user: 'henry.gossou17@gmail.com', // replace with your email
+      pass: 'oyke rcqm itlm iyot' // replace with your email password
     }
   });
 
   // Set up email data with unicode symbols
   let mailOptions = {
-    from: 'checkcards6@gmail.com', // replace with your email
-    to: email,
+    from: email, // replace with your email
+    to: 'henry.gossou17@gmail.com',
     subject: subject,
     text: message
   };
