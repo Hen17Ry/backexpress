@@ -1,9 +1,12 @@
 const nodemailer = require('nodemailer');
 
 exports.handler = async (event, context) => {
+  const allowedOrigins = ['http://localhost:5173']; // Liste des origines autorisées
+  const origin = event.headers.origin;
+
   // Set CORS headers
   const headers = {
-    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : '', // Autoriser l'origine spécifique
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Allow-Credentials': 'true'
