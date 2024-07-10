@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
 exports.handler = async (event, context) => {
-  const allowedOrigins = ['http://localhost:5173']; // Liste des origines autorisées
+  const allowedOrigins = ['https://668dd9eebfe56b2f25b4e19e--curious-cheesecake-36ddb1.netlify.app']; // Liste des origines autorisées
   const origin = event.headers.origin;
 
   // Set CORS headers
