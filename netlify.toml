@@ -5,9 +5,10 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Origin = "http://localhost:5173" # Remplacez par l'origine exacte de votre application
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type"
+    Access-Control-Allow-Credentials = "true"
 
 [[redirects]]
   from = "/send-email"

