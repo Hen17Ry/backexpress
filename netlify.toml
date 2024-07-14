@@ -5,7 +5,7 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Access-Control-Allow-Origin = "https://668dd9eebfe56b2f25b4e19e--curious-cheesecake-36ddb1.netlify.app" # Remplacez par l'origine exacte de votre application
+    Access-Control-Allow-Origin = "https://66931adc33078db3cd24dd70--coruscating-fox-78af0b.netlify.app" # Remplacez par l'origine exacte de votre application
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type"
     Access-Control-Allow-Credentials = "true"
