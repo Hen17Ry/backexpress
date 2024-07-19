@@ -7,7 +7,11 @@
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": ["express", "nodemailer", "backend"],
+  "keywords": [
+    "express",
+    "nodemailer",
+    "backend"
+  ],
   "author": "Votre Nom",
   "license": "ISC",
   "dependencies": {
