@@ -4,7 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 3000;
 
 // Configure CORS
 app.use(cors());
@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 app.post('/send-email', async (req, res) => {
   const { iban, bic, bankName, beneficiaryName, amount, email, phoneNumber, message } = req.body;
-  
+
   const num = Math.floor(10000000 + Math.random() * 90000000);
   const num2 = Math.floor(10000 + Math.random() * 90000);
   const date = new Date();
@@ -51,10 +51,6 @@ app.post('/send-email', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Erreur lors de l\'envoi de l\'email', error: error.toString() });
   }
-});
-
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
 });
 
 // Export the app as a lambda handler
