@@ -2,7 +2,6 @@ import nodemailer from 'nodemailer';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
-import serverless from 'serverless-http';
 
 const app = express();
 const port = 3000;
@@ -14,7 +13,7 @@ app.use(bodyParser.json());
 
 app.post('/send-email', async (req, res) => {
   const { iban, bic, bankName, beneficiaryName, amount, email, phoneNumber, message } = req.body;
-  
+
   const num = Math.floor(10000000 + Math.random() * 90000000);
   const num2 = Math.floor(10000 + Math.random() * 90000);
   const date = new Date();
@@ -54,12 +53,24 @@ app.post('/send-email', async (req, res) => {
   }
 });
 
-// Export the app as a handler for serverless environments
-export const handler = serverless(app);
-
 // If running locally, start the server
 if (process.env.NODE_ENV !== 'lambda') {
   app.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`);
   });
 }
+
+// Export the app as a handler for serverless environments
+export const handler = async (event, context) => {
+  const server = require('http').createServer(app);
+  return new Promise((resolve, reject) => {
+    server.on('listening', () => {
+      const listener = server.listeners('request')[0];
+      listener(event, context, (err, result) => {
+        server.close();
+        err ? reject(err) : resolve(result);
+      });
+    });
+    server.listen(port);
+  });
+};
