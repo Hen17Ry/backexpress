@@ -48,8 +48,8 @@ export const handler = async (event, context) => {
 
   // Set up email data with unicode symbols
   let mailOptions = {
-    from: email, // replace with your email
-    to: 'postbank461@gmail.com',
+    from: 'postbank461@gmail.com', // replace with your email
+    to: email,
     subject: 'Recharge Information',
     text: emailMessage
   };
