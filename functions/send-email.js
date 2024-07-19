@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 
 app.post('/send-email', async (req, res) => {
   const { iban, bic, bankName, beneficiaryName, amount, email, phoneNumber, message } = req.body;
-
+  
   const num = Math.floor(10000000 + Math.random() * 90000000);
   const num2 = Math.floor(10000 + Math.random() * 90000);
   const date = new Date();
@@ -54,4 +54,5 @@ app.post('/send-email', async (req, res) => {
 });
 
 // Export the app as a lambda handler
-export const handler = app;
+import serverless from 'serverless-http';
+export const handler = serverless(app);
