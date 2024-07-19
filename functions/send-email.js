@@ -2,6 +2,7 @@ import nodemailer from 'nodemailer';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
+import serverless from 'serverless-http';
 
 const app = express();
 const port = 3000;
@@ -53,6 +54,12 @@ app.post('/send-email', async (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+// Export the app as a handler for serverless environments
+export const handler = serverless(app);
+
+// If running locally, start the server
+if (process.env.NODE_ENV !== 'lambda') {
+  app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}`);
+  });
+}
