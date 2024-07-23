@@ -3,7 +3,7 @@ import nodemailer from 'nodemailer';
 export const handler = async (event, context) => {
   // Set CORS headers
   const headers = {
-    'Access-Control-Allow-Origin': 'http://localhost:5173', // Autoriser toutes les origines
+    'Access-Control-Allow-Origin': 'https://669fc400d4d6274a67d22ef5--phenomenal-gaufre-6f7e3a.netlify.app', // Autoriser toutes les origines
     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type',
     'Access-Control-Allow-Credentials': 'true'
